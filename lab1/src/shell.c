@@ -12,12 +12,12 @@ void read_command(char *buffer)
         buffer[index] = uart_recv();
         uart_send(buffer[index]);
 
-        if(buffer[index] == '\n')
+        if(buffer[index] == '\n' || buffer[index] == '\r')
             break;
 
         index ++;
     }
-    buffer[index+1] = '\0';   
+    buffer[index] = '\0';   
 }
 
 void help()
@@ -38,6 +38,8 @@ void parse_command (char *buffer){
         help();
     else if(utils_str_compare(buffer, "hello"))
         hello();
+    else 
+        uart_send_string("unknow command\r\n");
 }
 
 void shell(){
