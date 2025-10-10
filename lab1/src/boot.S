@@ -1,5 +1,4 @@
-
-#include "mm.h"                // define constant (bss_begin, bss_end...)
+#include "memzero.h"                // define constant (bss_begin, bss_end...)
 
 .section ".text.boot" 
 
@@ -19,5 +18,6 @@ master:
     sub    x1, x1, x0          // save x1-x0 to x1
     bl     memzero             // call memzero (func) 把 x0 開始長度 x1 的記憶體位址全部清零
 
-    mov    sp, #LOW_MEMORY    // copy #LOW_MEMORY (define in mm.h) to sp (set sp = LOW_MEMORY)
+    mov    sp, #LOW_MEMORY    // copy #LOW_MEMORY (define in mm.h) to sp (set sp (Stack Pointer Register) = LOW_MEMORY)
     bl    kernel_main         // call kernel_main
+

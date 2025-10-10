@@ -10,6 +10,6 @@
 #define AUX_MU_MCR_REG      (PBASE+0x00215050)
 #define AUX_MU_BAUD         (PBASE+0x00215068)
 #define AUX_MU_IIR_REG      (PBASE+0x00215048)
+#define AUX_MU_LSR_REG      (PBASE+0x00215054)
 #define AUX_MU_IO_REG       (PBASE+0x00215040)
-
 #endif  /*_P_GPIO_H */
