@@ -9,5 +9,7 @@ extern void delay ( unsigned long);
 string part
 */
 int utils_str_compare(char* a, char* b);
+void utils_uint2str_hex(unsigned int num, char *str);
+void utils_uint2str_dec(unsigned int num, char *str);
 
 #endif	/*_BOOT_H */ 

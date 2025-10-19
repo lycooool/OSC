@@ -33,5 +33,5 @@ kernel8.img: $(SRC_DIR)/linker.ld $(OBJ_FILES)
 qemu: kernel8.img
 	qemu-system-aarch64 -M raspi3b -kernel $< -serial null -serial stdio -display none
 
-
-
+debug: kernel8.img
+	qemu-system-aarch64 -M raspi3b -kernel $< -S -s -serial null -serial stdio -display none

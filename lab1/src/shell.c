@@ -1,6 +1,7 @@
 #include "mini_uart.h"
 #include "utils.h"
 #include <stddef.h>
+#include <mailbox.h>
 
 #define BUFFER_MAX_SIZE 256u
 
@@ -26,6 +27,8 @@ void help()
     uart_send_string("print this help menu\r\n");
     uart_send_string("hello    :");
     uart_send_string("print Hello World!\r\n");
+    uart_send_string("HW info  :");
+    uart_send_string("print hardware information\r\n");
 }
 
 void hello()
@@ -38,6 +41,8 @@ void parse_command (char *buffer){
         help();
     else if(utils_str_compare(buffer, "hello"))
         hello();
+    else if(utils_str_compare(buffer, "HW info"))
+        get_HW_info();
     else 
         uart_send_string("unknow command\r\n");
 }
