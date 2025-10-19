@@ -8,7 +8,7 @@ int mailbox_call(unsigned char channel)
 {
     unsigned int r = (((unsigned int)((unsigned long)&mailbox)&~0xF) | (channel&0xF)); // combine message address and channel
     do{asm volatile("nop");} while(*MAILBOX_STATUS & MAILBOX_FULL); // busy wait until not full
-    *MAILBOX_WRITE = r; // write to mailbox1
+    *MAILBOX_WRITE = r; // write to mailbox1 wake up gpu
     while (1)
     {
         do{asm volatile("nop");} while(*MAILBOX_STATUS & MAILBOX_EMPTY);
