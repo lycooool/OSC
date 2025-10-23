@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run QEMU (wait for GDB)",
+            "type": "shell",
+            "command": "qemu-system-aarch64",
+            "args": [
+                "-M", "raspi3b",
+                "-kernel", "kernel8.img",
+                "-S", "-s",
+                "-serial", "null",
+                "-serial", "stdio",
+                "-display", "none"
+
+            ],
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "focus": true
+            }
+        }
+    ]
+}

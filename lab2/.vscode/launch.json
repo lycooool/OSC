@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug QEMU (AArch64)",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb-multiarch",
+            "program": "${workspaceFolder}/build/kernel8.elf",
+            "cwd": "${workspaceFolder}",
+            "targetArchitecture": "arm64",
+            "miDebuggerServerAddress": "localhost:1234",
+            "stopAtEntry": true,
+            "setupCommands": [
+                { "text": "set architecture aarch64" }
+            ],
+            "preLaunchTask": "Run QEMU (wait for GDB)"
+        }
+    ]
+}
+
