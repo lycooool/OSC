@@ -23,6 +23,14 @@ void utils_uint2str_hex(unsigned int num, char *str){
     str++;
     unsigned int temp = num;
     int digit = -1;
+
+    if (num == 0) {         
+        *str = '0';
+        str ++;
+        *str = '\0';
+        return;
+    }
+
     while (temp > 0)
     {
         temp /= 16;
