@@ -1,0 +1,39 @@
+ARMGNU ?= aarch64-linux-gnu
+
+COPS = -g -Wall -nostdlib -nostartfiles -ffreestanding -Iinclude -mgeneral-regs-only
+ASMOPS = -g -Iinclude 
+
+BUILD_DIR = build
+SRC_DIR = src
+
+all : bootloader.img
+
+clean :
+	rm -rf $(BUILD_DIR) *.img 
+
+$(BUILD_DIR)/%_c.o: $(SRC_DIR)/%.c
+	mkdir -p $(@D)
+	$(ARMGNU)-gcc $(COPS) -MMD -c $< -o $@
+
+$(BUILD_DIR)/%_s.o: $(SRC_DIR)/%.S
+	$(ARMGNU)-gcc $(ASMOPS) -MMD -c $< -o $@
+
+C_FILES = $(wildcard $(SRC_DIR)/*.c)
+ASM_FILES = $(wildcard $(SRC_DIR)/*.S)
+OBJ_FILES = $(C_FILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%_c.o)
+OBJ_FILES += $(ASM_FILES:$(SRC_DIR)/%.S=$(BUILD_DIR)/%_s.o)
+
+DEP_FILES = $(OBJ_FILES:%.o=%.d)
+-include $(DEP_FILES)
+
+bootloader.img: $(SRC_DIR)/linker.ld $(OBJ_FILES)
+	$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o $(BUILD_DIR)/bootloader.elf  $(OBJ_FILES)
+	$(ARMGNU)-objcopy $(BUILD_DIR)/bootloader.elf -O binary bootloader.img
+
+qemu: bootloader.img
+	qemu-system-aarch64 -M raspi3b -kernel $< -serial null -serial pty -display none -s
+# 	qemu-system-aarch64 -M raspi3b \
+#     -device loader,file=bootloader.img,addr=0x60000 \
+#     -serial null -serial pty -display none -s -S
+debug: bootloader.img
+	qemu-system-aarch64 -M raspi3b -kernel $< -S -s -serial null -serial pty -display none
