@@ -74,3 +74,23 @@ void utils_uint2str_dec(unsigned int num, char *str)
     }
     *str = '\0';
 }
+
+unsigned int utils_ascii_hex2dec(int num_of_digits, char *str)
+{
+    unsigned int value = 0;
+
+    for (int i = 0; i < num_of_digits; i++) {
+        char c = str[i];
+        value <<= 4;  // shift left 4 bits (hex digit)
+
+        if (c >= '0' && c <= '9') {
+            value |= (c - '0');
+        } else if (c >= 'A' && c <= 'F') {
+            value |= (c - 'A' + 10);
+        } else if (c >= 'a' && c <= 'f') {
+            value |= (c - 'a' + 10);
+        }
+    }
+
+    return value;
+}

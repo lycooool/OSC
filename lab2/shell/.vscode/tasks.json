@@ -2,17 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Build Kernel",
+            "type": "shell",
+            "command": "make",
+            "args": [],
+            "problemMatcher": []
+        },
+        {
             "label": "Run QEMU (wait for GDB)",
             "type": "shell",
             "command": "qemu-system-aarch64",
             "args": [
                 "-M", "raspi3b",
                 "-kernel", "kernel8.img",
+                "-initrd", "src/initramfs.cpio",
                 "-S", "-s",
                 "-serial", "null",
                 "-serial", "stdio",
                 "-display", "none"
-
             ],
             "isBackground": true,
             "problemMatcher": [],
@@ -20,7 +27,8 @@
                 "reveal": "always",
                 "panel": "new",
                 "focus": true
-            }
+            },
+            "dependsOn": "Build Kernel"
         }
     ]
 }
