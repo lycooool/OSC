@@ -4,7 +4,10 @@
             "name": "ARM Baremetal",
             "includePath": [
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/src"
+                "${workspaceFolder}/src",
+                "/usr/aarch64-linux-gnu/include",
+                "/usr/lib/gcc-cross/aarch64-linux-gnu/13/include",      // ★ 你的 compiler include
+                "/usr/aarch64-linux-gnu/include"                    // ★ libc 標頭（如果有     
             ],
             "defines": [],
             "compilerPath": "/usr/bin/aarch64-linux-gnu-gcc",

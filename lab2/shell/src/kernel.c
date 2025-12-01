@@ -1,6 +1,7 @@
 #include "mini_uart.h"
 #include "shell.h"
 #include "cpio.h"
+#include "kernel.h"
 
 void kernel_main (void)
 {

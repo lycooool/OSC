@@ -31,7 +31,8 @@ kernel8.img: $(SRC_DIR)/linker.ld $(OBJ_FILES)
 	$(ARMGNU)-objcopy $(BUILD_DIR)/kernel8.elf -O binary kernel8.img
 
 qemu: kernel8.img
-	qemu-system-aarch64 -M raspi3b -kernel $< -serial null -serial stdio -display none
+	qemu-system-aarch64 -M raspi3b -kernel $< -initrd src/initramfs.cpio -serial null -serial stdio -display none
 
 debug: kernel8.img
 	qemu-system-aarch64 -M raspi3b -kernel $< -S -s -serial null -serial stdio -display none
+

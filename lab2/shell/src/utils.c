@@ -1,3 +1,8 @@
+#include <stdint.h>
+#include <stddef.h> 
+
+#include "utils.h"
+
 /*
 string part
 */
@@ -93,4 +98,40 @@ unsigned int utils_ascii_hex2dec(int num_of_digits, char *str)
     }
 
     return value;
+}
+
+unsigned int utils_ascii_dec2dec(int num_of_digits, char *str)
+{
+    unsigned int value = 0;
+    int i = 0;
+
+    if (num_of_digits > 0)
+    {
+        while (i < num_of_digits) {
+            char c = str[i];
+            value = value * 10 + (c - '0');
+            i++;
+        }
+    }
+    else // get string mode
+    {   
+        while(str[i]!='\0')
+        {
+            char c = str[i];
+            value = value * 10 + (c - '0');
+            i++;
+        }
+    }
+    
+
+    return value;
+}
+
+/*
+other part
+*/
+size_t  utils_align_up(size_t  value, size_t  alignment)
+{
+    unsigned long mask = alignment - 1;
+    return (value + mask) & ~mask;
 }

@@ -22,7 +22,7 @@ int parse_cpio (void *start)
         // magic check;
         for (int i = 0; i < 6; i++) 
         {
-            if (header->c_magic[i] != expected[i])  return;
+            if (header->c_magic[i] != expected[i])  return -1;
         }
         // name seze
         unsigned int namesize;
@@ -31,7 +31,7 @@ int parse_cpio (void *start)
         // file neme
         char *filename =(char *)(header + 1);
 
-        if(utils_str_compare(end, filename)) break; // the end of cpio file
+        if(utils_str_compare((char*)end, filename)) break; // the end of cpio file
 
         cpio_files_head -> filename = filename;
 
@@ -42,16 +42,15 @@ int parse_cpio (void *start)
         unsigned int filesize = utils_ascii_hex2dec(8, header -> c_filesize);
         cpio_files_head -> filesize =  filesize;
         
-        int name_padding = (4 - (110 + namesize) % 4) % 4;
-
-        char *data = filename + namesize + name_padding;
+        // align data
+        unsigned long name_end_ptr = (unsigned long)(filename + namesize);
+        unsigned char *data = (unsigned char *)utils_align_up((unsigned long)name_end_ptr, 4); 
         cpio_files_head -> data = data;
 
-        int file_padding = (4 - (filesize % 4)) % 4;
-
-
-        // next header
-        header = (cpio_newc_header_t *)(data + filesize + file_padding);
+        // align next header
+        unsigned long file_end_ptr =  (unsigned long)(data + filesize);
+        header = (cpio_newc_header_t *)utils_align_up((unsigned long)file_end_ptr,4);
+        
         cpio_files_head ++;
         count++;
     }

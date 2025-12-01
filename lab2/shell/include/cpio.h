@@ -30,7 +30,7 @@ typedef struct {
 } cpio_file_t;
 
 extern cpio_file_t cpio_files[MAX_CPIO_FILES];  
-extern cpio_file_count;                  
+extern int cpio_file_count;                  
 
 int parse_cpio (void *start);
 
