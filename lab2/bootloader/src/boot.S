@@ -1,9 +1,9 @@
-#include "memzero.h"                // define constant (bss_begin, bss_end...)
+#include "memzero.h"              
 
 .section ".text.boot" 
 
 
-.equ RELOCATE_ADDR, 0x40000      // bootloader 搬到的位置（可改成你喜歡的）
+.equ RELOCATE_ADDR, 0x40000      // bootloader 搬到的位置
 
 .globl _start
 _start:
