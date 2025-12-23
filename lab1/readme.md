@@ -36,6 +36,6 @@
     2. 等 mailbox not full 時寫入 mail box (將 mailbox 信封存到特定 register)
     3. 等待 GPU 回覆 (讀特定 register)，並確認回覆的是否為傳送的訊息 (讀特定 register)，是的話讀取 (讀 message buffer)
 ### 讀取硬體資訊
-* 可參考[mailbox.c](src/mailbox.c)
+* 可參考 [mailbox.c](src/mailbox.c)
     
 

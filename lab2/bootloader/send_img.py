@@ -27,6 +27,7 @@ packet = header + kernel_data
 
 # === 3️⃣ 指定 QEMU 的虛擬 UART 埠 ===
 PORT = "/dev/pts/7"   # ← 改成 QEMU 顯示的那個
+#PORT = "/dev/ttyUSB0" 
 BAUD = 115200
 TIMEOUT = 0.1
 

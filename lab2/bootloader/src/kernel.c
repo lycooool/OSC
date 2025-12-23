@@ -11,23 +11,16 @@ void kernel_main (void)
 
 void load_img(void){
 
-    unsigned int magic = 0;
-    magic |= uart_recv();
-    magic |= uart_recv() << 8 ;
-    magic |= uart_recv() << 16 ;
-    magic |= uart_recv() << 24 ;
+    uart_send_string("waiting for img\r\n");
+
+
+    unsigned int magic = 0; //32bit
+    while (magic != 0x544F4F42) {   // 'BOOT'
+        magic = (magic >> 8) | ((unsigned int)uart_recv() << 24);
+    }
+
 
     char info [50];
-
-    if(magic != 0x544F4F42)
-    {
-        uart_send_string("wrong magic, ");
-        utils_uint2str_hex(magic, info);
-        uart_send_string("received magic: ");
-        uart_send_string(info);
-        uart_send_string("\r\n");
-        return;
-    } 
 
     unsigned int size = 0;
     size |= uart_recv();
@@ -46,7 +39,7 @@ void load_img(void){
     check_sum |= uart_recv() << 16 ;
     check_sum |= uart_recv() << 24 ;
 
-    unsigned char *dst = (unsigned char *)0x100000;
+    unsigned char *dst = (unsigned char *)0x80000;
     unsigned int sum = 0;
 
     for(int i = 0; i < size; i++)
@@ -70,6 +63,6 @@ void load_img(void){
     
     uart_send_string("booting... \r\n");
     
-    void (*kernel_entry)(void) = (void *)0x100000;
+    void (*kernel_entry)(void) = (void *)0x80000;
     kernel_entry();
 }
