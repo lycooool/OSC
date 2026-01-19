@@ -31,9 +31,9 @@ bootloader.img: $(SRC_DIR)/linker.ld $(OBJ_FILES)
 	$(ARMGNU)-objcopy $(BUILD_DIR)/bootloader.elf -O binary bootloader.img
 
 qemu: bootloader.img
-	qemu-system-aarch64 -M raspi3b -kernel $< -serial null -serial pty -display none -s
+	qemu-system-aarch64 -M raspi3b -kernel $< -S -s -serial null -serial pty -display none -dtb bcm2710-rpi-3-b-plus.dtb 
 # 	qemu-system-aarch64 -M raspi3b \
 #     -device loader,file=bootloader.img,addr=0x60000 \
 #     -serial null -serial pty -display none -s -S
 debug: bootloader.img
-	qemu-system-aarch64 -M raspi3b -kernel $< -S -s -serial null -serial pty -display none
+	qemu-system-aarch64 -M raspi3b -kernel $< -S -s -serial null -serial pty -display none -dtb bcm2710-rpi-3-b-plus.dtb

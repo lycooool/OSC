@@ -1,8 +1,11 @@
 #include "mini_uart.h"
 #include "kernel.h"
 #include "utils.h"
+#include <stdint.h>
 
-void kernel_main (void)
+extern char *_dtb;
+
+void kernel_main(void)
 {
     uart_init();
     uart_send_string("Waiting for img \r\n");
@@ -60,9 +63,15 @@ void load_img(void){
         uart_send_string("\r\n");
         return;
     }
+
+    // 【新增測試】印出 Bootloader 認為的 DTB 位址
+    uart_send_string("Bootloader passing arg: ");
+    utils_uint2str_hex((unsigned long)_dtb, info);
+    uart_send_string(info);
+    uart_send_string("\r\n");
     
     uart_send_string("booting... \r\n");
     
-    void (*kernel_entry)(void) = (void *)0x80000;
-    kernel_entry();
+    void (*kernel_entry)(char *) = (void (*)(char *))0x80000;
+    kernel_entry(_dtb);
 }

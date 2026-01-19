@@ -1,4 +1,4 @@
 #ifndef _KERNEL_H
 #define _KERNEL_H
-void kernel_main (void);
+void kernel_main ();
 #endif

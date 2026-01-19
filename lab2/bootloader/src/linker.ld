@@ -1,18 +1,25 @@
+ENTRY(_start)
 SECTIONS
 {
-    . = 0x80000;
-	
-	__bootloader_start = .; /* boot loader start address */
+  . = 0x60000;
+  __bootloader_start = .;
+  .text : { 
+    *(.text.relocation)
+    __bootloader_entry = .;
+    *(.text.boot)
+    *(.text) 
+    *(.rodata) 
+  }
+  . = ALIGN(0x1000);
 
-	.text.boot : { *(.text.boot) }
-	.text : { *(.text) }
-	.rodata : { *(.rodata) }
-	.data : { *(.data) }
-	
-	__bootloader_end = .;
+  .data : { *(.data) }
+  . = ALIGN(0x1000);
 
-	. = ALIGN(0x8);
-	bss_begin = .;
-	.bss : { *(.bss*) } 
-	bss_end = .;
+  
+  __bss_begin = .;
+  .bss : { *(.bss*) } 
+  . = ALIGN(0x1000);
+  __bss_end = .;  
+
+  __bootloader_size =  __bss_end -  __bootloader_start;
 }

@@ -4,6 +4,8 @@
 
 .globl _start 
 _start: // entry point
+    ldr    x1, =_dtb_ptr         
+    str    x0, [x1]   
     mrs    x0, mpidr_el1       // load mpidr_el1(CPU info) to x0
     and    x0, x0,#0xFF        // Check processor id (lowest 8 bit in mpidr_el1)
     cbz    x0, master          // if x0 = 0 (first cpu) jump to master
@@ -21,3 +23,6 @@ master:
     mov    sp, #LOW_MEMORY    // copy #LOW_MEMORY (define in mm.h) to sp (set sp (Stack Pointer Register) = LOW_MEMORY)
     bl    kernel_main         // call kernel_main
 
+    .global _dtb_ptr
+    .section .data
+    _dtb_ptr: .dc.a 0x0
